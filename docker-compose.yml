@@ -1,0 +1,18 @@
+services:
+  sap3d-cost-calc:
+    build: .
+    container_name: sap3d-cost-calc
+    restart: unless-stopped
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.sap3d.rule=Host(`est.sap3d.in`)"
+      - "traefik.http.routers.sap3d.entrypoints=websecure"
+      - "traefik.http.routers.sap3d.tls=true"
+      - "traefik.http.routers.sap3d.tls.certresolver=le"
+      - "traefik.http.services.sap3d.loadbalancer.server.port=8501"
+
+networks:
+  proxy:
+    external: true
